@@ -109,32 +109,32 @@ public class WifiDAO {
                     " LIMIT 20;";
 
 
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setDouble(1, Double.parseDouble(lat));
-            preparedStatement.setDouble(2, Double.parseDouble(lnt));
-            preparedStatement.setDouble(3, Double.parseDouble(lat));
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setDouble(1, Double.parseDouble(lat));
+            pstmt.setDouble(2, Double.parseDouble(lnt));
+            pstmt.setDouble(3, Double.parseDouble(lat));
 
-            resultSet = preparedStatement.executeQuery();
+            rs = pstmt.executeQuery();
 
-            while (resultSet.next()) {
+            while (rs.next()) {
                 WifiDTO wifiDTO = WifiDTO.builder()
-                        .dist(resultSet.getDouble("distance"))
-                        .mgrNo(resultSet.getString("x_swifi_mgr_no"))
-                        .wrdofc(resultSet.getString("x_swifi_wrdofc"))
-                        .mainNm(resultSet.getString("x_swifi_main_nm"))
-                        .adres1(resultSet.getString("x_swifi_adres1"))
-                        .adres2(resultSet.getString("x_swifi_adres2"))
-                        .instlFloor(resultSet.getString("x_swifi_instl_floor"))
-                        .instlTy(resultSet.getString("x_swifi_instl_ty"))
-                        .instlMby(resultSet.getString("x_swifi_instl_mby"))
-                        .svcSe(resultSet.getString("x_swifi_svc_se"))
-                        .cmcwr(resultSet.getString("x_swifi_cmcwr"))
-                        .cnstcYear(resultSet.getString("x_swifi_cnstc_year"))
-                        .inoutDoor(resultSet.getString("x_swifi_inout_door"))
-                        .remaps3(resultSet.getString("x_swifi_remars3"))
-                        .lat(resultSet.getString("lat"))
-                        .lnt(resultSet.getString("lnt"))
-                        .workDttm(String.valueOf(resultSet.getTimestamp("work_dttm").toLocalDateTime()))
+                        .dist(rs.getDouble("distance"))
+                        .mgrNo(rs.getString("x_swifi_mgr_no"))
+                        .wrdofc(rs.getString("x_swifi_wrdofc"))
+                        .mainNm(rs.getString("x_swifi_main_nm"))
+                        .adres1(rs.getString("x_swifi_adres1"))
+                        .adres2(rs.getString("x_swifi_adres2"))
+                        .instlFloor(rs.getString("x_swifi_instl_floor"))
+                        .instlTy(rs.getString("x_swifi_instl_ty"))
+                        .instlMby(rs.getString("x_swifi_instl_mby"))
+                        .svcSe(rs.getString("x_swifi_svc_se"))
+                        .cmcwr(rs.getString("x_swifi_cmcwr"))
+                        .cnstcYear(rs.getString("x_swifi_cnstc_year"))
+                        .inoutDoor(rs.getString("x_swifi_inout_door"))
+                        .remaps3(rs.getString("x_swifi_remars3"))
+                        .lat(rs.getString("lat"))
+                        .lnt(rs.getString("lnt"))
+                        .workDttm(String.valueOf(rs.getTimestamp("work_dttm").toLocalDateTime()))
                         .build();
                 list.add(wifiDTO);
             }
@@ -142,7 +142,7 @@ public class WifiDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            SQLiteManager.closeConnDB(connection, preparedStatement, resultSet);
+            SQLiteManager.closeAllDB(conn, pstmt, rs);
         }
 
         return list;
@@ -150,47 +150,47 @@ public class WifiDAO {
 
    public List<WifiDTO> selectWifiList(String mgrNo, double distance) {
 
-        connection = null;
-        preparedStatement = null;
-        resultSet = null;
+	   	conn = null;
+        pstmt = null;
+        rs = null;
 
         List<WifiDTO> list = new ArrayList<>();
 
         try {
-            connection = SQLiteManager.connectionDB();
+        	conn = SQLiteManager.connDB();
             String sql = " select * from public_wifi where x_swifi_mgr_no = ? ";
 
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, mgrNo);
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, mgrNo);
 
-            resultSet = preparedStatement.executeQuery();
+            rs = pstmt.executeQuery();
 
-            while (resultSet.next()) {
+            while (rs.next()) {
                 WifiDTO wifiDTO = WifiDTO.builder()
                        .dist(distance)
-                       .mgrNo(resultSet.getString("x_swifi_mgr_no"))
-                       .wrdofc(resultSet.getString("x_swifi_wrdofc"))
-                       .mainNm(resultSet.getString("x_swifi_main_nm"))
-                       .adres1(resultSet.getString("x_swifi_adres1"))
-                       .adres2(resultSet.getString("x_swifi_adres2"))
-                       .instlFloor(resultSet.getString("x_swifi_instl_floor"))
-                       .instlTy(resultSet.getString("x_swifi_instl_ty"))
-                       .instlMby(resultSet.getString("x_swifi_instl_mby"))
-                       .svcSe(resultSet.getString("x_swifi_svc_se"))
-                       .cmcwr(resultSet.getString("x_swifi_cmcwr"))
-                       .cnstcYear(resultSet.getString("x_swifi_cnstc_year"))
-                       .inoutDoor(resultSet.getString("x_swifi_inout_door"))
-                       .remaps3(resultSet.getString("x_swifi_remars3"))
-                       .lat(resultSet.getString("lat"))
-                       .lnt(resultSet.getString("lnt"))
-                       .workDttm(String.valueOf(resultSet.getTimestamp("work_dttm").toLocalDateTime()))
+                       .mgrNo(rs.getString("x_swifi_mgr_no"))
+                       .wrdofc(rs.getString("x_swifi_wrdofc"))
+                       .mainNm(rs.getString("x_swifi_main_nm"))
+                       .adres1(rs.getString("x_swifi_adres1"))
+                       .adres2(rs.getString("x_swifi_adres2"))
+                       .instlFloor(rs.getString("x_swifi_instl_floor"))
+                       .instlTy(rs.getString("x_swifi_instl_ty"))
+                       .instlMby(rs.getString("x_swifi_instl_mby"))
+                       .svcSe(rs.getString("x_swifi_svc_se"))
+                       .cmcwr(rs.getString("x_swifi_cmcwr"))
+                       .cnstcYear(rs.getString("x_swifi_cnstc_year"))
+                       .inoutDoor(rs.getString("x_swifi_inout_door"))
+                       .remaps3(rs.getString("x_swifi_remars3"))
+                       .lat(rs.getString("lat"))
+                       .lnt(rs.getString("lnt"))
+                       .workDttm(String.valueOf(rs.getTimestamp("work_dttm").toLocalDateTime()))
                        .build();
                 list.add(wifiDTO);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-           SQLiteManager.closeConnDB(connection, preparedStatement, resultSet);
+           SQLiteManager.closeAllDB(conn, pstmt, rs);
         }
 
        return list;
@@ -199,41 +199,41 @@ public class WifiDAO {
     public WifiDTO selectWifi(String mgrNo) {
         WifiDTO wifiDTO = new WifiDTO();
 
-        connection = null;
-        preparedStatement = null;
-        resultSet = null;
+        conn = null;
+        pstmt = null;
+        rs = null;
 
         try {
-            connection = SQLiteManager.connectionDB();
+            conn = SQLiteManager.connDB();
             String sql = " select * from public_wifi where x_swifi_mgr_no = ? ";
-            preparedStatement = connection.prepareStatement(sql);
+            pstmt = conn.prepareStatement(sql);
 
-            preparedStatement.setString(1, mgrNo);
-            resultSet = preparedStatement.executeQuery();
+            pstmt.setString(1, mgrNo);
+            rs = pstmt.executeQuery();
 
-            while (resultSet.next()) {
-                wifiDTO.setMgrNo(resultSet.getString("X_SWIFI_MGR_NO"));
-                wifiDTO.setWrdofc(resultSet.getString("X_SWIFI_WRDOFC"));
-                wifiDTO.setMainNm(resultSet.getString("X_SWIFI_MAIN_NM"));
-                wifiDTO.setAdres1(resultSet.getString("X_SWIFI_ADRES1"));
-                wifiDTO.setAdres2(resultSet.getString("X_SWIFI_ADRES2"));
-                wifiDTO.setInstlFloor(resultSet.getString("X_SWIFI_INSTL_FLOOR"));
-                wifiDTO.setInstlTy(resultSet.getString("X_SWIFI_INSTL_TY"));
-                wifiDTO.setInstlMby(resultSet.getString("X_SWIFI_INSTL_MBY"));
-                wifiDTO.setSvcSe(resultSet.getString("X_SWIFI_SVC_SE"));
-                wifiDTO.setCmcwr(resultSet.getString("X_SWIFI_CMCWR"));
-                wifiDTO.setCnstcYear(resultSet.getString("X_SWIFI_CNSTC_YEAR"));
-                wifiDTO.setInoutDoor(resultSet.getString("X_SWIFI_INOUT_DOOR"));
-                wifiDTO.setRemaps3(resultSet.getString("X_SWIFI_REMARS3"));
-                wifiDTO.setLat(resultSet.getString("LAT"));
-                wifiDTO.setLnt(resultSet.getString("LNT"));
-                wifiDTO.setWorkDttm(String.valueOf(resultSet.getTimestamp("work_dttm").toLocalDateTime()));
+            while (rs.next()) {
+                wifiDTO.setMgrNo(rs.getString("X_SWIFI_MGR_NO"));
+                wifiDTO.setWrdofc(rs.getString("X_SWIFI_WRDOFC"));
+                wifiDTO.setMainNm(rs.getString("X_SWIFI_MAIN_NM"));
+                wifiDTO.setAdres1(rs.getString("X_SWIFI_ADRES1"));
+                wifiDTO.setAdres2(rs.getString("X_SWIFI_ADRES2"));
+                wifiDTO.setInstlFloor(rs.getString("X_SWIFI_INSTL_FLOOR"));
+                wifiDTO.setInstlTy(rs.getString("X_SWIFI_INSTL_TY"));
+                wifiDTO.setInstlMby(rs.getString("X_SWIFI_INSTL_MBY"));
+                wifiDTO.setSvcSe(rs.getString("X_SWIFI_SVC_SE"));
+                wifiDTO.setCmcwr(rs.getString("X_SWIFI_CMCWR"));
+                wifiDTO.setCnstcYear(rs.getString("X_SWIFI_CNSTC_YEAR"));
+                wifiDTO.setInoutDoor(rs.getString("X_SWIFI_INOUT_DOOR"));
+                wifiDTO.setRemaps3(rs.getString("X_SWIFI_REMARS3"));
+                wifiDTO.setLat(rs.getString("LAT"));
+                wifiDTO.setLnt(rs.getString("LNT"));
+                wifiDTO.setWorkDttm(String.valueOf(rs.getTimestamp("work_dttm").toLocalDateTime()));
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-           SQLiteManager.closeConnDB(connection, preparedStatement, resultSet);
+           SQLiteManager.closeAllDB(conn, pstmt, rs);
         }
 
         return wifiDTO;
