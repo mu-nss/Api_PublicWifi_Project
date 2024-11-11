@@ -10,6 +10,7 @@ import lombok.*;
 public class WifiDTO {
 	
 	private Long id;
+	private double dist; 	 	// 거리
 	private String mgrNo;  	 	// 관리번호
 	private String wrdofc; 	 	// 자치구
 	private String mainNm; 	 	// 와이파이명
@@ -26,5 +27,5 @@ public class WifiDTO {
 	private String lat; 		// y좌표
 	private String lnt; 		// x좌표
 	private String workDttm;  	// 작업일자
-	private double dist; 	 	// 거리
+	
 }

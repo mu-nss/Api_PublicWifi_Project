@@ -13,7 +13,7 @@ import java.sql.Statement;
 public class SQLiteManager {
 	
     // DB 연결
-    public static Connection connDB() {
+    public static Connection connDB() throws SQLException {
     	
     	String dbPath = "D:/PublicWifi_Project/ApiPublicWifi/public_wifi_sql.db";
     	String url = "jdbc:sqlite:" + dbPath;
@@ -25,8 +25,7 @@ public class SQLiteManager {
         	Class.forName("org.sqlite.JDBC"); 
         	conn = DriverManager.getConnection(url);
         
-
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
  

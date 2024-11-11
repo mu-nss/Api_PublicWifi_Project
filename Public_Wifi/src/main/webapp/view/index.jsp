@@ -1,3 +1,5 @@
+<%@page import="dto.WifiDTO"%>
+<%@page import="dao.WifiDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ page import="java.util.*" %>
@@ -52,6 +54,14 @@
 	            </tr>
 			</thead>
             <tbody>
+            	<%
+                    if (!("0.0").equals(lat) && !("0.0").equals(lnt)) {
+                        WifiDAO wifiDAO = new WifiDAO();
+                        List<WifiDTO> list = wifiDAO.getListWifi(lat, lnt);
+
+                        if (list != null) {
+                            for (WifiDTO wifiDTO : list) {
+                %>
             	<tr>
 					<td>${wifi.dist}</td>
 					<td>${wifi.mgrNo}</td>
@@ -73,6 +83,11 @@
 					<td>${wifi.lnt}</td>
 					<td>${wifi.workDttm}</td>
 				</tr>
+				    <% } %>
+                <% } %>
+                <% } else { %>
+                    <td colspan='17'> 위치 정보를 입력하신 후에 조회해 주세요. </td>
+                <% } %>
 			</tbody>
         </table>
     </div>
@@ -107,7 +122,7 @@
             let longitude = document.getElementById("lnt").value;
 
             if (latitude !== "" || longitude !== "") {
-                window.location.assign("http://localhost:8383?lat=" + latitude + "&lnt=" + longitude);
+                window.location.assign("index.jsp?lat=" + latitude + "&lnt=" + longitude);
             } else {
                 alert("위치 정보를 입력하신 후에 조회해주세요.")
             }

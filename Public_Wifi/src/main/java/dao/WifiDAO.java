@@ -17,7 +17,7 @@ public class WifiDAO {
     public static PreparedStatement pstmt;
     public static ResultSet rs;
     
-
+    // 공공 와이파이 정보 가져오기
     public static int insertWifi(JsonArray jsonArray) {
     	
         conn = null;
@@ -30,34 +30,35 @@ public class WifiDAO {
 
             String sql = " insert into public_wifi "
                     + " ( x_swifi_mgr_no, x_swifi_wrdofc, x_swifi_main_nm, x_swifi_adres1, x_swifi_adres2, "
-                    + " x_swifi_instl_floor, x_swifi_instl_ty, x_swifi_instl_mby, x_swifi_svc_se, x_swifi_cmcwr, "
-                    + " x_swifi_cnstc_year, x_swifi_inout_door, x_swifi_remars3, lat, lnt, work_dttm) "
+                    + "   x_swifi_instl_floor, x_swifi_instl_ty, x_swifi_instl_mby, x_swifi_svc_se, x_swifi_cmcwr, "
+                    + "   x_swifi_cnstc_year, x_swifi_inout_door, x_swifi_remars3, lat, lnt, work_dttm) "
                     + " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ";
 
             pstmt = conn.prepareStatement(sql);
 
             for (int i = 0; i < jsonArray.size(); i++) {
-
                 JsonObject data = (JsonObject) jsonArray.get(i).getAsJsonObject();
-                pstmt.setString(1, data.get("X_SWIFI_MGR_NO").getAsString());
-                pstmt.setString(2, data.get("X_SWIFI_WRDOFC").getAsString());
-                pstmt.setString(3, data.get("X_SWIFI_MAIN_NM").getAsString());
-                pstmt.setString(4, data.get("X_SWIFI_ADRES1").getAsString());
-                pstmt.setString(5, data.get("X_SWIFI_ADRES2").getAsString());
-                pstmt.setString(6, data.get("X_SWIFI_INSTL_FLOOR").getAsString());
-                pstmt.setString(7, data.get("X_SWIFI_INSTL_TY").getAsString());
-                pstmt.setString(8, data.get("X_SWIFI_INSTL_MBY").getAsString());
-                pstmt.setString(9, data.get("X_SWIFI_SVC_SE").getAsString());
-                pstmt.setString(10, data.get("X_SWIFI_CMCWR").getAsString());
-                pstmt.setString(11, data.get("X_SWIFI_CNSTC_YEAR").getAsString());
-                pstmt.setString(12, data.get("X_SWIFI_INOUT_DOOR").getAsString());
-                pstmt.setString(13, data.get("X_SWIFI_REMARS3").getAsString());
-                pstmt.setString(14, data.get("LAT").getAsString());
-                pstmt.setString(15, data.get("LNT").getAsString());
-                pstmt.setString(16, data.get("WORK_DTTM").getAsString());
+                
+                pstmt.setString(1, data.get("x_swifi_mgr_no").getAsString());
+                pstmt.setString(2, data.get("x_swifi_wrdofc").getAsString());
+                pstmt.setString(3, data.get("x_swifi_main_nm").getAsString());
+                pstmt.setString(4, data.get("x_swifi_adres1").getAsString());
+                pstmt.setString(5, data.get("x_swifi_adres2").getAsString());
+                pstmt.setString(6, data.get("x_swifi_instl_floor").getAsString());
+                pstmt.setString(7, data.get("x_swifi_instl_ty").getAsString());
+                pstmt.setString(8, data.get("x_swifi_instl_mby").getAsString());
+                pstmt.setString(9, data.get("x_swifi_svc_se").getAsString());
+                pstmt.setString(10, data.get("x_swifi_cmcwr").getAsString());
+                pstmt.setString(11, data.get("x_swifi_cnstc_year").getAsString());
+                pstmt.setString(12, data.get("x_swifi_inout_door").getAsString());
+                pstmt.setString(13, data.get("x_swifi_remars3").getAsString());
+                pstmt.setString(14, data.get("lat").getAsString());
+                pstmt.setString(15, data.get("lnt").getAsString());
+                pstmt.setString(16, data.get("work_dttm").getAsString());
 
                 pstmt.addBatch();               
-
+                pstmt.clearParameters(); 
+                
                 //1000개 기준으로 임시 batch 실행
                 if ((i + 1) % 1000 == 0) {
                     int[] result = pstmt.executeBatch();
@@ -85,27 +86,26 @@ public class WifiDAO {
 
         return count;
     }
-
-    public List<WifiDTO> getNearestWifiList(String lat, String lnt) {
+    
+    // 내 위치 정보를 입력하면 가까운 위치에 있는 와이파이 정보 20개를 보여주는 기능 
+    public List<WifiDTO> getListWifi(String lat, String lnt) {
 
         conn = null;
         pstmt = null;
         rs = null;
 
-        List<WifiDTO> list = new ArrayList<>();
+        List<WifiDTO> nearestList = new ArrayList<WifiDTO>();
 
         try {
             conn= SQLiteManager.connDB();
 
-            //위도 경도 구하는 식
-            String sql = " SELECT *, " +
-                    " round(6371*acos(cos(radians(?))*cos(radians(LAT))*cos(radians(LNT) - " +
-                    " radians(?))+sin(radians(?))*sin(radians(LAT))), 4) " +
-                    " AS distance " +
-                    " FROM public_wifi " +
-                    " ORDER BY distance " +
-                    " LIMIT 20;";
-
+            String sql = " select *, " +
+                    " round(6371 * acos(cos(radians(?)) * cos(radians(LAT)) * cos(radians(LNT) - " +
+                    " radians(?)) + sin(radians(?)) * sin(radians(LAT))), 4) " +
+                    " as dist " +
+                    " from public_wifi " +
+                    " order by dist " +
+                    " limit 20;";
 
             pstmt = conn.prepareStatement(sql);
             pstmt.setDouble(1, Double.parseDouble(lat));
@@ -116,7 +116,6 @@ public class WifiDAO {
 
             while (rs.next()) {
                 WifiDTO wifiDTO = WifiDTO.builder()
-                        .dist(rs.getDouble("distance"))
                         .mgrNo(rs.getString("x_swifi_mgr_no"))
                         .wrdofc(rs.getString("x_swifi_wrdofc"))
                         .mainNm(rs.getString("x_swifi_main_nm"))
@@ -134,25 +133,26 @@ public class WifiDAO {
                         .lnt(rs.getString("lnt"))
                         .workDttm(String.valueOf(rs.getTimestamp("work_dttm").toLocalDateTime()))
                         .build();
-                list.add(wifiDTO);
+                nearestList.add(wifiDTO);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
+            
         } finally {
             SQLiteManager.closeAllDB(conn, pstmt, rs);
         }
 
-        return list;
+        return nearestList;
     }
 
-   public List<WifiDTO> selectWifiList(String mgrNo, double distance) {
+   public List<WifiDTO> selectList(String mgrNo, double distance) {
 
 	   	conn = null;
         pstmt = null;
         rs = null;
 
-        List<WifiDTO> list = new ArrayList<>();
+        List<WifiDTO> list = new ArrayList<WifiDTO>();
 
         try {
         	conn = SQLiteManager.connDB();
@@ -193,8 +193,9 @@ public class WifiDAO {
 
        return list;
     }
-
-    public WifiDTO selectWifi(String mgrNo) {
+   
+   // 와이파이 상세 정보보기 - 추가기능
+    public WifiDTO detailWifi(String mgrNo) {
         WifiDTO wifiDTO = new WifiDTO();
 
         conn = null;

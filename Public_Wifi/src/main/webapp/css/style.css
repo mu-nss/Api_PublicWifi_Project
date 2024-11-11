@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 body {
-	margin: 0;
+	margin: 10px;
 }
 
 .input-form {
@@ -9,11 +9,10 @@ body {
 	padding-bottom: 10px;
 }
 
-
-th, td 
-{
+th, td {
 	border: solid 1px;
 	text-align: center;
+	font-size: 15px;
 	padding: 10px;
 }
 
