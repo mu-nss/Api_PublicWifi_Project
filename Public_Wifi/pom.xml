@@ -32,6 +32,12 @@
 			<artifactId>okhttp</artifactId>
 			<version>4.9.3</version>
 		</dependency>
+		
+		<dependency> 
+			<groupId>org.jetbrains.kotlin</groupId> 
+			<artifactId>kotlin-stdlib</artifactId> 
+			<version>1.5.10</version> 
+		</dependency>
 
 		<!-- Json 처리를 위한 gson -->
 		<dependency>

@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  *	SQLite JDBC 연결
@@ -13,11 +12,10 @@ import java.sql.Statement;
 public class SQLiteManager {
 	
     // DB 연결
-    public static Connection connDB() throws SQLException {
+    public static Connection connDB() {
     	
-    	String dbPath = "D:/PublicWifi_Project/ApiPublicWifi/public_wifi_sql.db";
+    	String dbPath = "D:/Api_PublicWifi_Project/Public_Wifi/SQLite_Wifi.db";
     	String url = "jdbc:sqlite:" + dbPath;
-    	
     	Connection conn = null;
     	
         try {
@@ -27,6 +25,8 @@ public class SQLiteManager {
         
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        } catch (SQLException e2) {
+        	e2.printStackTrace();
         }
  
         return conn;
