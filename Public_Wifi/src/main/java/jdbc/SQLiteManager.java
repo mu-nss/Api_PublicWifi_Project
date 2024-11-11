@@ -24,8 +24,7 @@ public class SQLiteManager {
         		
         	Class.forName("org.sqlite.JDBC"); 
         	conn = DriverManager.getConnection(url);
-        	
-        	System.out.println("SQLite DB Connected");
+        
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();

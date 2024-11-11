@@ -18,7 +18,7 @@ public class WifiDAO {
     public static ResultSet rs;
     
 
-    public static int insertPublicWifi(JsonArray jsonArray) {
+    public static int insertWifi(JsonArray jsonArray) {
     	
         conn = null;
         pstmt = null;
@@ -28,7 +28,6 @@ public class WifiDAO {
         	conn = SQLiteManager.connDB();
         	conn.setAutoCommit(false);   
 
-            /* Insert 진행 */
             String sql = " insert into public_wifi "
                     + " ( x_swifi_mgr_no, x_swifi_wrdofc, x_swifi_main_nm, x_swifi_adres1, x_swifi_adres2, "
                     + " x_swifi_instl_floor, x_swifi_instl_ty, x_swifi_instl_mby, x_swifi_svc_se, x_swifi_cmcwr, "
@@ -40,7 +39,6 @@ public class WifiDAO {
             for (int i = 0; i < jsonArray.size(); i++) {
 
                 JsonObject data = (JsonObject) jsonArray.get(i).getAsJsonObject();
-
                 pstmt.setString(1, data.get("X_SWIFI_MGR_NO").getAsString());
                 pstmt.setString(2, data.get("X_SWIFI_WRDOFC").getAsString());
                 pstmt.setString(3, data.get("X_SWIFI_MAIN_NM").getAsString());
@@ -63,13 +61,13 @@ public class WifiDAO {
                 //1000개 기준으로 임시 batch 실행
                 if ((i + 1) % 1000 == 0) {
                     int[] result = pstmt.executeBatch();
-                    count += result.length;    //배치한 완료 개수
+                    count += result.length; //배치한 완료 개수
                     conn.commit();
                 }
             }
 
             int[] result = pstmt.executeBatch();
-            count += result.length;    //배치한 완료 개수
+            count += result.length; //배치한 완료 개수
             conn.commit();
 
         } catch (SQLException e) {
@@ -101,8 +99,8 @@ public class WifiDAO {
 
             //위도 경도 구하는 식
             String sql = " SELECT *, " +
-                    " round(6371*acos(cos(radians(?))*cos(radians(LAT))*cos(radians(LNT) " +
-                    " -radians(?))+sin(radians(?))*sin(radians(LAT))), 4) " +
+                    " round(6371*acos(cos(radians(?))*cos(radians(LAT))*cos(radians(LNT) - " +
+                    " radians(?))+sin(radians(?))*sin(radians(LAT))), 4) " +
                     " AS distance " +
                     " FROM public_wifi " +
                     " ORDER BY distance " +

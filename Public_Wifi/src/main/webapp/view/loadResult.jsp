@@ -1,3 +1,5 @@
+<!-- Open API 와이파이 정보 가져오기 실행 화면 -->
+
 <%@page import="service.ApiService"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"

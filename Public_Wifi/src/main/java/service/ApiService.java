@@ -1,5 +1,8 @@
 package service;
 
+import java.io.IOException;
+import java.net.URL;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -9,16 +12,17 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-import java.io.IOException;
-import java.net.URL;
+import static dao.WifiDAO.insertWifi;
 
-import static dao.WifiDAO.insertPublicWifi;
-
+/**
+ * OpenAPI JSON 파싱
+ **/
 public class ApiService {
     private static String API_URL = "http://openapi.seoul.go.kr:8088/6271436d5a6d736a31313445644f4572/json/TbPublicWifiInfo/";
     private static OkHttpClient okHttpClient = new OkHttpClient();
-
-    public static int WifiTotalCount() throws IOException{
+  
+    //Wi-fi 갯수 구하기
+    public static int totalCnt() throws IOException{         
         int cnt = 0;
 
         URL url = new URL(API_URL + "1/1");
@@ -40,11 +44,14 @@ public class ApiService {
                                      .getAsJsonObject().get("list_total_count")
                                      .getAsInt();
 
-                    System.out.println("찾은 와이파이 개수 = " + cnt);
+                    System.out.println("FIND WIFI CNT - " + cnt);
                 }
+
             } else {
-                System.out.println("API 호출 실패: " + response.code());
+                System.out.println("FAIL API CONNECT - " + response.code());
             }
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -53,8 +60,9 @@ public class ApiService {
     }
 
     public static int getPublicWifiJson() throws IOException {
-        int totalCnt = WifiTotalCount();
-        int start = 1, end = 1;
+        int totalCnt = totalCnt();
+        int start = 1;
+        int end = 1;
         int count = 0;
 
         try {
@@ -77,13 +85,13 @@ public class ApiService {
                                                          .getAsJsonObject().get("row")
                                                          .getAsJsonArray();
 
-                        count += insertPublicWifi(jsonArray);  //데이터 로드 갯수
+                        count += insertWifi(jsonArray); //데이터 로드 갯수
 
                     } else {
-                        System.out.println("API 호출 실패: " + response.code());
+                        System.out.println("FAIL API CONNECT - " + response.code());
                     }
                 } else {
-                    System.out.println("API 호출 실패: " + response.code());
+                    System.out.println("FAIL API CONNECT - " + response.code());
                 }
             }
         } catch (Exception e) {
@@ -92,4 +100,5 @@ public class ApiService {
 
         return count;
     }
+    
 }
