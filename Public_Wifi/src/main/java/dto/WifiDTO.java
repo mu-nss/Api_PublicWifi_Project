@@ -5,6 +5,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
+// 추가 안 하면 WIFIDAO에 오류 생김
 @NoArgsConstructor
 @AllArgsConstructor
 public class WifiDTO {

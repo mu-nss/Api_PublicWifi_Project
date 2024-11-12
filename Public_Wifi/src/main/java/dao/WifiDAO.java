@@ -129,6 +129,7 @@ public class WifiDAO {
 
             while (rs.next()) {
                 WifiDTO wifiDTO = WifiDTO.builder()
+                		.dist(rs.getDouble("dist"))
                         .mgrNo(rs.getString("x_swifi_mgr_no"))
                         .wrdofc(rs.getString("x_swifi_wrdofc"))
                         .mainNm(rs.getString("x_swifi_main_nm"))
