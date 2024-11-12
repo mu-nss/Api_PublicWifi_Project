@@ -38,8 +38,8 @@
         <span>LNT:</span>
         <input type="text" id="lnt" value="<%=lnt%>">
 
-        <button id="btn_cur_position"><span>내 위치 가져오기</span></button>
-        <button id="btn_nearest_wifi"><span>근처 WIFI 정보 보기</span></button>
+        <button id="btn_getPosition"><span>내 위치 가져오기</span></button>
+        <button id="btn_listNearest"><span>근처 WIFI 정보 보기</span></button>
     </div>
 
     <div>
@@ -105,8 +105,8 @@
     </div>
 
     <script>
-        let getCurPosition = document.getElementById("btn_cur_position");
-        let getNearestWifi = document.getElementById("btn_nearest_wifi");
+        let getPosition = document.getElementById("btn_getPosition");
+        let getNearestWifi = document.getElementById("btn_listNearest");
 
         let lat = null;
         let lnt = null;
@@ -116,17 +116,16 @@
             lnt = document.getElementById("lnt").value;
         }
 
-        getCurPosition.addEventListener("click", function () {
+        getPosition.addEventListener("click", function () {
             if ('geolocation' in navigator) {
-                navigator.geolocation.getCurrentPosition(function (position){
+                navigator.geolocation.getPosition(function (position){
                     let latitude = position.coords.latitude;
                     let longitude = position.coords.longitude;
+                    
                     document.getElementById("lat").value = latitude;
                     document.getElementById("lnt").value = longitude;
                 })
-            } else{
-                alert("위치 정보를 확인할 수 없으니 직접 입력해주시기 바랍니다.")
-            }
+            } 
         });
 
         getNearestWifi.addEventListener("click", function (){
@@ -135,8 +134,6 @@
 
             if (latitude !== "" || longitude !== "") {
                 window.location.assign("index.jsp?lat=" + latitude + "&lnt=" + longitude);
-            } else {
-                alert("위치 정보를 입력하신 후에 조회해주세요.")
             }
         })
     </script>
