@@ -114,12 +114,11 @@ public class WifiDAO {
             conn= SQLiteManager.connDB();
 
             String sql = " select *, " +
-                    " round(6371 * acos(cos(radians(?)) * cos(radians(LAT)) * cos(radians(LNT) - " +
-                    " radians(?)) + sin(radians(?)) * sin(radians(LAT))), 4) " +
-                    " as dist " +
-                    " from public_wifi " +
-                    " order by dist " +
-                    " limit 20;";
+	                    " 	round(6371 * acos(cos(radians(?)) * cos(radians(LAT)) * cos(radians(LNT) - " +
+	                    " 	radians(?)) + sin(radians(?)) * sin(radians(LAT))), 4) as dist " +
+	                    " from public_wifi " +
+	                    " order by dist " +
+	                    " limit 20;";
 
             pstmt = conn.prepareStatement(sql);
             pstmt.setDouble(1, Double.parseDouble(lat));

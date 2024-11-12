@@ -63,7 +63,7 @@ public class ApiService {
         int totalCnt = totalCnt();
         int start = 1;
         int end = 1;
-        int count = 0;
+        int cnt = 0;
 
         try {
             for (int i = 0; i <= totalCnt / 1000; i++) {
@@ -85,7 +85,7 @@ public class ApiService {
                                                          .getAsJsonObject().get("row")
                                                          .getAsJsonArray();
 
-                        count += insertWifi(jsonArray); // 로드된 데이터 총개수
+                        cnt += insertWifi(jsonArray); // 로드된 데이터 총개수
 
                     } else {
                         System.out.println("FAIL API CONNECT - " + response.code());
@@ -98,7 +98,7 @@ public class ApiService {
             e.printStackTrace();
         }
 
-        return count;
+        return cnt;
     }
     
 }

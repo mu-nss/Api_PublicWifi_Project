@@ -12,11 +12,11 @@
 <body>
 	<%
 		ApiService apiService = new ApiService();
-		int cnt = apiService.getPublicWifiJson();
+		int cnt = apiService.totalCnt();
 	%>
 
 	<div style="text-align: center;">
-		<h2><%=cnt%>개의 WIFI 정보를 정상적으로 저장하였습니다.</h2>
+		<h2><%=cnt %>개의 WIFI 정보를 정상적으로 저장하였습니다.</h2>
 		<a href = "index.jsp">홈으로 가기</a>
 	</div>
 </body>
