@@ -156,7 +156,10 @@ public class WifiDAO {
         } finally {
             SQLiteManager.closeAllDB(conn, pstmt, rs);
         }
-
+        
+        // 조회시 search_histroy에 기록 저장
+        HistoryDAO.insertHistory(lat, lnt);
+        
         return nearestList;
     }
 
