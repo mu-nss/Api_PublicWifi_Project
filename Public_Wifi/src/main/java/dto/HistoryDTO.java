@@ -1,7 +1,5 @@
 package dto;
 
-import java.sql.Timestamp;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +14,6 @@ public class HistoryDTO {
 	private int id;
 	private String lat;
 	private String lnt;
-	private Timestamp searchTime;
+	private String searchTime;
 	
 }

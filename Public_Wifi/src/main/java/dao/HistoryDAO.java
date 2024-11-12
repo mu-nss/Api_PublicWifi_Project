@@ -33,7 +33,7 @@ public class HistoryDAO {
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, lat);
             pstmt.setString(2, lnt);
-            pstmt.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+            pstmt.setString(3, LocalDateTime.now().toString());
          
 
         } catch (SQLException e) {
@@ -57,7 +57,7 @@ public class HistoryDAO {
         try {
             conn= SQLiteManager.connDB();
 
-            String sql = " select * from search_history order by id desc ";
+            String sql = " select * from search_history order by id desc; ";
 
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
@@ -67,7 +67,7 @@ public class HistoryDAO {
                 historyDTO.setId(rs.getInt("id"));
                 historyDTO.setLat(rs.getString("lat"));
                 historyDTO.setLnt(rs.getString("lnt"));
-                historyDTO.setSearchTime(rs.getTimestamp("search_history"));
+                historyDTO.setSearchTime(rs.getString("search_time"));
                 
                 searchWifi.add(historyDTO);
                 		
@@ -79,22 +79,23 @@ public class HistoryDAO {
         } finally {
             SQLiteManager.closeAllDB(conn, pstmt, rs);
         }
+        
         return searchWifi;
     }
 
     
    // 검색기록 삭제
-   public void deleteHistory(int id) {
+   public void deleteHistory(String id) {
 
 	   	conn = null;
         pstmt = null;
         
         try {
         	conn = SQLiteManager.connDB();
-            String sql = " delete from search_history where id = ? ";
+            String sql = " delete from search_history where id = ?; ";
 
             pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, id);
+            pstmt.setInt(1, Integer.parseInt(id));
             pstmt.executeUpdate();
 
         } catch (SQLException e) {

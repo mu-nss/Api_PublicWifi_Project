@@ -7,6 +7,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" href="../css/style.css">
 	<title>와이파이 정보구하기</title>
 </head>
 <body>
@@ -34,7 +35,7 @@
 	        </thead>
 			<tbody>
 				<%
-					if(id != null && id.isEmpty()) {
+					if(id != null && !id.isEmpty()) {
 						for(HistoryDTO history : list) {
 				%>
 				<tr>
