@@ -15,8 +15,20 @@
 	<%@ include file="header.jsp" %>
 	
     <%
-        String lat = request.getParameter("lat") == null ? "0.0" : request.getParameter("lat");
-        String lnt = request.getParameter("lnt") == null ? "0.0" : request.getParameter("lnt");
+        String lat = "";
+    	String lnt = "";
+    
+    	if(request.getParameter("lat") == null) {
+    		lat = "0.0";
+    	} else {
+    		request.getParameter("lat");
+    	}
+        
+    	if(request.getParameter("lnt") == null) {
+    		lnt = "0.0";
+    	} else {
+    		request.getParameter("lnt");
+    	}
     %>
 
     <div class="input">
