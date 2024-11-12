@@ -14,7 +14,9 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
-					<release>1.8</release>
+					<!--<release>1.8</release> -->
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 
@@ -26,19 +28,13 @@
 	</build>
 
 	<dependencies>
-		<!-- dependency처리를 위한 okhttp3 -->
+		<!-- okhttp3 -->
 		<dependency>
 			<groupId>com.squareup.okhttp3</groupId>
 			<artifactId>okhttp</artifactId>
 			<version>4.9.3</version>
 		</dependency>
 		
-		<dependency> 
-			<groupId>org.jetbrains.kotlin</groupId> 
-			<artifactId>kotlin-stdlib</artifactId> 
-			<version>1.5.10</version> 
-		</dependency>
-
 		<!-- Json 처리를 위한 gson -->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>

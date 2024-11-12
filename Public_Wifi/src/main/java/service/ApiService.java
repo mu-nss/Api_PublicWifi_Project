@@ -18,8 +18,8 @@ import static dao.WifiDAO.insertWifi;
  * OpenAPI JSON 파싱
  **/
 public class ApiService {
-    private static String API_URL = "http://openapi.seoul.go.kr:8088/6271436d5a6d736a31313445644f4572/json/TbPublicWifiInfo/";
-    private static OkHttpClient okHttpClient = new OkHttpClient();
+    private static final String API_URL = "http://openapi.seoul.go.kr:8088/6271436d5a6d736a31313445644f4572/json/TbPublicWifiInfo/";
+    private static final OkHttpClient okHttpClient = new OkHttpClient();
   
     //Wi-fi 갯수 구하기
     public static int totalCnt() throws IOException{         
@@ -85,7 +85,7 @@ public class ApiService {
                                                          .getAsJsonObject().get("row")
                                                          .getAsJsonArray();
 
-                        count += insertWifi(jsonArray); //데이터 로드 갯수
+                        count += insertWifi(jsonArray); // 로드된 데이터 총개수
 
                     } else {
                         System.out.println("FAIL API CONNECT - " + response.code());

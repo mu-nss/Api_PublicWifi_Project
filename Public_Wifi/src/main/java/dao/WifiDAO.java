@@ -13,9 +13,11 @@ import jdbc.SQLiteManager;
 
 public class WifiDAO {
 	
-    public static Connection conn;
+    public static  Connection conn;
     public static PreparedStatement pstmt;
     public static ResultSet rs;
+    
+    public WifiDAO() {}
     
     // 공공 와이파이 정보 가져오기
     public static int insertWifi(JsonArray jsonArray) {
@@ -28,11 +30,24 @@ public class WifiDAO {
         	conn = SQLiteManager.connDB();
         	conn.setAutoCommit(false);   
 
-            String sql = " insert into public_wifi "
-                    + " ( x_swifi_mgr_no, x_swifi_wrdofc, x_swifi_main_nm, x_swifi_adres1, x_swifi_adres2, "
-                    + "   x_swifi_instl_floor, x_swifi_instl_ty, x_swifi_instl_mby, x_swifi_svc_se, x_swifi_cmcwr, "
-                    + "   x_swifi_cnstc_year, x_swifi_inout_door, x_swifi_remars3, lat, lnt, work_dttm) "
-                    + " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ";
+            String sql = " insert into public_wifi ( "
+	                    + "   x_swifi_mgr_no, "
+	                    + "	  x_swifi_wrdofc, "
+	                    + "   x_swifi_main_nm, "
+	                    + "   x_swifi_adres1, "
+	                    + "   x_swifi_adres2, "
+	                    + "   x_swifi_instl_floor, "
+	                    + "   x_swifi_instl_ty, "
+	                    + "   x_swifi_instl_mby, "
+	                    + "   x_swifi_svc_se, "
+	                    + "   x_swifi_cmcwr, "
+	                    + "   x_swifi_cnstc_year, "
+	                    + "   x_swifi_inout_door, "
+	                    + "   x_swifi_remars3, "
+	                    + "   lat, "
+	                    + "   lnt, "
+	                    + "   work_dttm ) "
+	                    + " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ";
 
             pstmt = conn.prepareStatement(sql);
 
@@ -55,7 +70,6 @@ public class WifiDAO {
                 pstmt.setString(14, data.get("lat").getAsString());
                 pstmt.setString(15, data.get("lnt").getAsString());
                 pstmt.setString(16, data.get("work_dttm").getAsString());
-
                 pstmt.addBatch();               
                 pstmt.clearParameters(); 
                 
@@ -76,8 +90,8 @@ public class WifiDAO {
 
             try {
             	conn.rollback();
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
+            } catch (SQLException e2) {
+            	e2.printStackTrace();
             }
 
         } finally {
