@@ -19,7 +19,7 @@ public class WifiDAO {
     
     public WifiDAO() {}
     
-    // 공공 와이파이 정보 가져오기
+    // 공공 와이파이 정보 가져와서 DB에 저장
     public static int insertWifi(JsonArray jsonArray) {
     	
         conn = null;

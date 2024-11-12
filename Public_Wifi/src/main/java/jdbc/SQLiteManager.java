@@ -19,7 +19,6 @@ public class SQLiteManager {
     	Connection conn = null;
     	
         try {
-        		
         	Class.forName("org.sqlite.JDBC"); 
         	conn = DriverManager.getConnection(url);
         
