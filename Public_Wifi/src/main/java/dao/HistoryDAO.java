@@ -28,7 +28,7 @@ public class HistoryDAO {
         	conn.setAutoCommit(false);   
 
             String sql = " insert into search_history(lat, lnt, search_time) "
-	                   + " values (?, ?, ?, ?); ";
+	                   + " values (?, ?, ?); ";
 
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, lat);
@@ -64,7 +64,7 @@ public class HistoryDAO {
 
             while (rs.next()) {
                 HistoryDTO historyDTO = new HistoryDTO();
-                historyDTO.setId(rs.getLong("id"));
+                historyDTO.setId(rs.getInt("id"));
                 historyDTO.setLat(rs.getString("lat"));
                 historyDTO.setLnt(rs.getString("lnt"));
                 historyDTO.setSearchTime(rs.getTimestamp("search_history"));

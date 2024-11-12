@@ -13,7 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class HistoryDTO {
 	
-	private Long id;
+	private int id;
 	private String lat;
 	private String lnt;
 	private Timestamp searchTime;
