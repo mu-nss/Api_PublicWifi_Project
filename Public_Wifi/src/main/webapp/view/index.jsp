@@ -11,6 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
 <body>
+
 	<h1>와이파이 정보 구하기</h1>
 	<%@ include file="header.jsp"%>
 
@@ -78,7 +79,7 @@
 					<td><%=wifi.getMgrNo()%></td>
 					<td><%=wifi.getWrdofc()%></td>
 					<td>
-						<!-- <a href="wifi?action=getWifiDetails&id=${wifi.id}"></a> -->
+						<!--<a href="나중에 추가할 것"></a>-->
 						<%=wifi.getMainNm()%>
 					</td>
 					<td><%=wifi.getAdres1()%></td>
